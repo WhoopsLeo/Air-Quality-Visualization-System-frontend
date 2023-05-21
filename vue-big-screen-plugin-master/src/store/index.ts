@@ -4,7 +4,8 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     year: '',
-    name: ''
+    name: '',
+    currentYear: ''
   },
   mutations: {
     addYear(state,step){
@@ -12,7 +13,10 @@ export default createStore({
     },
     addName(state,step){
       state.name = step;
-    }
+    },
+    addCurrentYear(state,step){
+      state.currentYear = step;
+    },
   },
   actions: {
   },
