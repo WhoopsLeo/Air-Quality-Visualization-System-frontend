@@ -11,7 +11,6 @@
 </template>
 
 <script>
-
     import { onMounted,computed,watch } from 'vue'
     import * as echarts from 'echarts'
     import {getSixAverage, getSixAverageByProvince} from "@/api";
@@ -41,7 +40,7 @@
               ['PM2.5', 25.2, 37.1, 41.2, 18, 33.9, 49.1],
               ['PM10',38.2, 45.1, 22.7, 57.7, 33.9, 11.8],
               ['SO2', 10.2, 30.1, 22.2, 11, 8.8, 11.7]
-          ];
+            ];
             // 获取数据
             const getData = async () =>{
               const param = {
@@ -59,7 +58,7 @@
                   so2.push('SO2');
                   for (let i = 0;i < s.length;i++){
                     for (let j = 0;j < s[i].length;j++){
-                        // 判断i属于哪一个
+                        // 判断i属于哪一个  i是几种污染物，j是年份
                         switch (i) {
                             case 0:
                                 pm2.push(s[i][j]);
@@ -91,7 +90,7 @@
                   dataList.push(pm10);
                   dataList.push(so2);
               })
-          };
+            };
             const drawLine = () =>{
             const myChart = echarts.init(document.getElementById('container'), 'dark', {
               renderer: 'canvas',
@@ -150,8 +149,10 @@
                   {
                     type: 'pie',
                     id: 'pie',
+                    //设置饼图的半径大小为整个容器的 40%。这决定了饼图的大小
                     radius : '40%',
                     center: ['50%', '25%'],
+                    //高亮效果
                     emphasis: {
                       focus: 'self'
                     },
@@ -166,25 +167,24 @@
                   }
                 ]
               };
-            myChart.on('updateAxisPointer', function (event) {
-                const xAxisInfo = event.axesInfo[0];
-                if(xAxisInfo){
-                  const dimension = xAxisInfo.value + 1;
-                  myChart.setOption({
-
-                    series: {
-                      id : 'pie',
-                      label: {
-                        formatter: '{b}: {@[' + dimension +']} ({d}%)'
-                      },
-                      encode: {
-                        value: dimension,
-                        tooltip: dimension
-                      }
-                    }
-                  })
-                }
-              });
+            // myChart.on('updateAxisPointer', function (event) {
+            //     const xAxisInfo = event.axesInfo[0];
+            //     if(xAxisInfo){
+            //       const dimension = xAxisInfo.value + 1;
+            //       myChart.setOption({
+            //         series: {
+            //           id : 'pie',
+            //           label: {
+            //             formatter: '{b}: {@[' + dimension +']} ({d}%)'
+            //           },
+            //           encode: {
+            //             value: dimension,
+            //             tooltip: dimension
+            //           }
+            //         }
+            //       })
+            //     }
+            //   });
 
             if (option && typeof option === 'object') {
               myChart.setOption(option);

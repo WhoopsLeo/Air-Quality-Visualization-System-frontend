@@ -2,43 +2,13 @@
   <div class="centreLeft1">
     <div class="bg-color-black">
       <div class="d-flex pt-2 pl-2">
-                <span>
-                    <i class="iconfont icon-fenxi2"/>
-                    中国各地空气质量及污染物分布
-                </span>
       </div>
-        <div>
-            <button class="bubbly-button"  :style="{ visibility: level === 1 ? 'visible' : 'hidden'}" @click="returnLevel">
-                <span style="font-size: 20px">返回上一级</span>
-            </button>
-            <button style="margin-left: 8%" class="bubbly-button1" @click="getInfoByYear2013">
-                <span style="font-size: 20px">2013</span>
-            </button>
-            <button class="bubbly-button1" @click="getInfoByYear2014">
-                <span style="font-size: 20px">2014</span>
-            </button>
-            <button class="bubbly-button1" @click="getInfoByYear2015">
-                <span style="font-size: 20px">2015</span>
-            </button>
-            <button class="bubbly-button1" @click="getInfoByYear2016">
-                <span style="font-size: 20px">2016</span>
-            </button>
-            <button class="bubbly-button1" @click="getInfoByYear2017">
-                <span style="font-size: 20px">2017</span>
-            </button>
-            <button class="bubbly-button1" @click="getInfoByYear2018">
-                <span style="font-size: 20px">2018</span>
-            </button>
-            <button class="bubbly-button" :style="{ visibility: level === 1 ? 'visible' : 'hidden'}" @click="goToIndex2">
-                <span style="font-size: 20px">查看详情</span>
-            </button>
-            
-        </div>
-
-
+      <button class="bubbly-button" style="font-size: 16px;"  @click="back">
+           返回上一页
+        </button>
       <!-- 这里画地图 -->
-      <div style="height: 750px;">
-        <div id="chinaMap" style="height: 100%"></div>
+      <div style="height: 420px;">
+        <div  id="chinaMap" style="height: 100%;margin-top: -65px;"></div>
       </div>
     </div>
   </div>
@@ -46,14 +16,13 @@
 
 <script>
 
-import {onMounted, ref} from 'vue'
+import {onMounted, ref,computed} from 'vue'
 import * as echarts from 'echarts'
 import '@/api/index'
 import {getCityInfoByProvince, getInfoByYear, getProvinceInfo} from "@/api";
 import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
 export default {
-  name: "Left1",
   components: {},
 
   setup() {
@@ -66,9 +35,8 @@ export default {
     const year_2016 = 2016;
     const year_2017 = 2017;
     const year_2018 = 2018;
-    let cityname = "";
     let current_year = 2013;
-    let level = ref(0);
+    let cityname = '';
 
     let dataResult = [];
     let cityInfos = [];
@@ -78,30 +46,24 @@ export default {
     var history = [];
     let options = {};
     let charts = '';
-    
 
+    const back = () =>{
+        router.push({
+            name: 'Index',
+        });
+    }
+    
     onMounted(async () => {
         // 先发送当前年份
         store.commit('addYear',current_year);
 
         await getData();
         let myChart = await drawChina();
+        cityname = store.state.name;
         // 这里可以进行数据下钻
-        myChart.on('click', (params, myChart) => {
-        cityname = params.name;
         getDown(cityname);
-      })
     });
-    
-    const goToIndex2 = () => {
-        router.push({
-            name: 'Index2',
-            // params: {
-            //     data: cityname
-            // }
-        });
-    };
-    // 根据年份获取信息
+
     const getInfoByYear2013 = () =>{
         history.pop();
       current_year = 2013;
@@ -395,7 +357,7 @@ export default {
                   },
               },
               title: {
-                  text: '省市大气污染物分布图',
+                  text: '大气污染物分布图',
                   left: 'center',
               },
               // 标注数据
@@ -717,11 +679,10 @@ export default {
        if (history.length === 0){
             
            // 判断name是否为单个直辖市或者香港、澳门、这些城市无法下钻
-           if (level.value == 1 || name === '上海市'||name === '北京市' || name === '重庆市' || name === '天津市' || name === '香港特别行政区' || name === '澳门特别行政区' || name === '台湾省'){
+           if (name === '上海市'||name === '北京市' || name === '重庆市' || name === '天津市' || name === '香港特别行政区' || name === '澳门特别行政区' || name === '台湾省'){
                // 不进行任何操作
            } else {
-                level.value = 1;
-                //alert(level);
+
                charts.clear();
                //获取地图数据之后，获取地图数据
                const mapname = name;
@@ -732,8 +693,8 @@ export default {
                }
 
                // 将当前的年份及省份发送到vuex
-               store.commit('addYear',current_year);
-               store.commit('addName',name);
+               //store.commit('addYear',current_year);
+               //store.commit('addName',name);
 
                // 发送请求获取城市数据
                const param = {
@@ -769,7 +730,7 @@ export default {
                            },
                            min: 0,//最小值
                            max: 500,//最大值，不设置为无限大
-                           right: 40,//距离右侧位置
+                           right: 20,//距离右侧位置
                            top: 20,//距离底部位置
                            orient: "vertical",//组件竖直放置
                            align: "left",//色块在左
@@ -833,8 +794,8 @@ export default {
                            // 使用 value[3]中的数据表示污染程度，散点颜色变化
                            min: 0,
                            max: 300,
-                           left: 30,
-                           bottom: 20,
+                           left: 15,
+                           bottom: 40,
                            calculable: true,
                            seriesIndex: 0,
                            dimension: 2,
@@ -895,7 +856,7 @@ export default {
                        },
                    },
                    title: {
-                       text: '省市大气污染物分布图',
+                       text: '大气污染物分布图',
                        left: 'center',
                    },
                    // 标注数据
@@ -983,7 +944,6 @@ export default {
       /*if (!(history.length === 0)){
 
       }*/
-        level.value = 0;
         store.commit('addYear',current_year);
         store.commit('addName','china');
         charts.clear();
@@ -1214,16 +1174,16 @@ export default {
     return {
       returnLevel,dataResult,year_2013,year_2014,year_2015,year_2016,year_2017,year_2018,
         getInfoByYear2013,getInfoByYear2014,getInfoByYear2015,getInfoByYear2016,getInfoByYear2017,
-        getInfoByYear2018,flushProvince,goToIndex2,level
+        getInfoByYear2018,flushProvince,back
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-/*$box-width: 300px;*/
-$box-width: 100%;
-$box-height: 900px;
+// $box-width: 300px;
+ $box-width: 100%;
+ $box-height: 420px;
 
 .centreLeft1 {
   padding: 16px;
@@ -1294,6 +1254,8 @@ $box-height: 900px;
   cursor: pointer;
   transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
   box-shadow: 0 2px 25px rgba(14, 19, 37);
+  z-index: 50;
+  position: relative;
 }
 
 .bubbly-button1 {

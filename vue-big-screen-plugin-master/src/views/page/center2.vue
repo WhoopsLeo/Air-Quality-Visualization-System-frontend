@@ -327,34 +327,12 @@ export default {
             autoPlay: true,
             playInterval: 1000,
             data: [
-              '2013-01-01',
+              '2012-01-01',
               '2014-01-01',
               '2015-01-01',
-              /* {
-                 value: '2005-01-01',
-                 tooltip: {
-                   formatter: '{b} GDP达到一个高度'
-                 },
-                 symbol: 'diamond',
-                 symbolSize: 16
-               },*/
               '2016-01-01',
               '2017-01-01',
               '2018-01-01',
-              /* '2008-01-01',
-               '2009-01-01',
-               '2010-01-01',
-                {
-                  value: '2011-01-01',
-                  tooltip: {
-                    formatter: function (params) {
-                      return params.name + 'GDP达到又一个高度';
-                    }
-                  },
-                  symbol: 'diamond',
-                  symbolSize: 18
-                }
-               '2011-01-01'*/
             ],
             label: {
               color: "rgba(255, 255, 255, 1)",
@@ -366,11 +344,11 @@ export default {
           tooltip: {},
           legend: {
             itemWidth: 20,
-            top:40,
+            top: 40,
             left: 40,
-            //data: ['第一产业', '第二产业', '第三产业', 'GDP', '金融', '房地产'],
             data: ['AQI', 'NO2', 'CO', 'SO2', 'O3', 'PM2', 'PM10'],
             selected: {
+              AQI : true,
               NO2: false,
               CO: false,
               SO2: false,
@@ -413,26 +391,12 @@ export default {
           xAxis: [
             {
               type: 'value',
-              //name: 'GDP（亿元）'
               axisLabel: {
                 color: "rgba(255, 255, 255, 1)"
               },
             }
           ],
           series: [
-            /*{name: 'GDP', type: 'bar'},
-            {name: '金融', type: 'bar'},
-            {name: '房地产', type: 'bar'},
-            {name: '第一产业', type: 'bar'},
-            {name: '第二产业', type: 'bar'},
-            {name: '第三产业', type: 'bar'},*/
-            /*{
-              name: 'GDP占比',
-              type: 'pie',
-              center: ['75%', '35%'],
-              radius: '28%',
-              z: 100
-            }*/
             {name: 'AQI', type: 'bar'},
             {name: 'NO2', type: 'bar'},
             {name: 'CO', type: 'bar'},
@@ -464,14 +428,6 @@ export default {
               {data: dataMap.dataO3['2013']},
               {data: dataMap.dataPM2['2013']},
               {data: dataMap.dataPM10['2013']}
-              //饼图的数据
-              /*{
-                data: [
-                  {name: '第一产业', value: dataMap.dataNO2['2013sum']},
-                  {name: '第二产业', value: dataMap.dataCO['2013sum']},
-                  {name: '第三产业', value: dataMap.dataSO2['2013sum']}
-                ]
-              }*/
             ]
           },
           {
@@ -490,13 +446,6 @@ export default {
               {data: dataMap.dataO3['2014']},
               {data: dataMap.dataPM2['2014']},
               {data: dataMap.dataPM10['2014']}
-              /*{
-                data: [
-                  {name: '第一产业', value: dataMap.dataNO2['2014sum']},
-                  {name: '第二产业', value: dataMap.dataCO['2014sum']},
-                  {name: '第三产业', value: dataMap.dataSO2['2014sum']}
-                ]
-              }*/
             ]
           },
           {
@@ -516,13 +465,6 @@ export default {
               {data: dataMap.dataO3['2015']},
               {data: dataMap.dataPM2['2015']},
               {data: dataMap.dataPM10['2015']}
-              /*{
-                data: [
-                  {name: '第一产业', value: dataMap.dataNO2['2015sum']},
-                  {name: '第二产业', value: dataMap.dataCO['2015sum']},
-                  {name: '第三产业', value: dataMap.dataSO2['2015sum']}
-                ]
-              }*/
             ]
           },
           {
@@ -540,13 +482,6 @@ export default {
               {data: dataMap.dataO3['2016']},
               {data: dataMap.dataPM2['2016']},
               {data: dataMap.dataPM10['2016']}
-              /*{
-                data: [
-                  {name: '第一产业', value: dataMap.dataNO2['2016sum']},
-                  {name: '第二产业', value: dataMap.dataCO['2016sum']},
-                  {name: '第三产业', value: dataMap.dataSO2['2016sum']}
-                ]
-              }*/
             ]
           },
           {
@@ -564,13 +499,6 @@ export default {
               {data: dataMap.dataO3['2017']},
               {data: dataMap.dataPM2['2017']},
               {data: dataMap.dataPM10['2017']}
-              /*{
-                data: [
-                  {name: '第一产业', value: dataMap.dataNO2['2017sum']},
-                  {name: '第二产业', value: dataMap.dataCO['2017sum']},
-                  {name: '第三产业', value: dataMap.dataSO2['2017sum']}
-                ]
-              }*/
             ]
           },
           {
@@ -588,13 +516,6 @@ export default {
               {data: dataMap.dataO3['2018']},
               {data: dataMap.dataPM2['2018']},
               {data: dataMap.dataPM10['2018']}
-              /*{
-                data: [
-                  {name: '第一产业', value: dataMap.dataNO2['2018sum']},
-                  {name: '第二产业', value: dataMap.dataCO['2018sum']},
-                  {name: '第三产业', value: dataMap.dataSO2['2018sum']}
-                ]
-              }*/
             ]
           }
         ]
@@ -632,7 +553,6 @@ export default {
               name: current_name
           };
           await getCityAqiByAsc(param).then(res=>{
-             console.log(res)
               const s = res.data.data;
               // 数据装入
               const cList = [];
@@ -686,7 +606,6 @@ export default {
 
       // 重载
       const reloadLine = async (cList,aqiCityObj,pm2CityObj,pm10CityObj,so2CityObj,no2CityObj,coCityObj,o3CityObj)=>{
-          console.log(cList);
           charts.clear();
           let dataMap = {};
           function dataFormatterAQI(obj) {
@@ -893,31 +812,9 @@ export default {
                           '2013-01-01',
                           '2014-01-01',
                           '2015-01-01',
-                          /* {
-                             value: '2005-01-01',
-                             tooltip: {
-                               formatter: '{b} GDP达到一个高度'
-                             },
-                             symbol: 'diamond',
-                             symbolSize: 16
-                           },*/
                           '2016-01-01',
                           '2017-01-01',
                           '2018-01-01',
-                          /* '2008-01-01',
-                           '2009-01-01',
-                           '2010-01-01',
-                            {
-                              value: '2011-01-01',
-                              tooltip: {
-                                formatter: function (params) {
-                                  return params.name + 'GDP达到又一个高度';
-                                }
-                              },
-                              symbol: 'diamond',
-                              symbolSize: 18
-                            }
-                           '2011-01-01'*/
                       ],
                       label: {
                           color: "rgba(255, 255, 255, 1)",
@@ -931,7 +828,7 @@ export default {
                       itemWidth: 20,
                       top:40,
                       left: 40,
-                      //data: ['第一产业', '第二产业', '第三产业', 'GDP', '金融', '房地产'],
+                  
                       data: ['AQI', 'NO2', 'CO', 'SO2', 'O3', 'PM2', 'PM10'],
                       selected: {
                           NO2: false,
@@ -983,19 +880,7 @@ export default {
                       }
                   ],
                   series: [
-                      /*{name: 'GDP', type: 'bar'},
-                      {name: '金融', type: 'bar'},
-                      {name: '房地产', type: 'bar'},
-                      {name: '第一产业', type: 'bar'},
-                      {name: '第二产业', type: 'bar'},
-                      {name: '第三产业', type: 'bar'},*/
-                      /*{
-                        name: 'GDP占比',
-                        type: 'pie',
-                        center: ['75%', '35%'],
-                        radius: '28%',
-                        z: 100
-                      }*/
+                  
                       {name: 'AQI', type: 'bar'},
                       {name: 'NO2', type: 'bar'},
                       {name: 'CO', type: 'bar'},
@@ -1027,14 +912,6 @@ export default {
                           {data: dataMap.dataO3['2013']},
                           {data: dataMap.dataPM2['2013']},
                           {data: dataMap.dataPM10['2013']}
-                          //饼图的数据
-                          /*{
-                            data: [
-                              {name: '第一产业', value: dataMap.dataNO2['2013sum']},
-                              {name: '第二产业', value: dataMap.dataCO['2013sum']},
-                              {name: '第三产业', value: dataMap.dataSO2['2013sum']}
-                            ]
-                          }*/
                       ]
                   },
                   {
@@ -1053,13 +930,6 @@ export default {
                           {data: dataMap.dataO3['2014']},
                           {data: dataMap.dataPM2['2014']},
                           {data: dataMap.dataPM10['2014']}
-                          /*{
-                            data: [
-                              {name: '第一产业', value: dataMap.dataNO2['2014sum']},
-                              {name: '第二产业', value: dataMap.dataCO['2014sum']},
-                              {name: '第三产业', value: dataMap.dataSO2['2014sum']}
-                            ]
-                          }*/
                       ]
                   },
                   {
@@ -1079,13 +949,6 @@ export default {
                           {data: dataMap.dataO3['2015']},
                           {data: dataMap.dataPM2['2015']},
                           {data: dataMap.dataPM10['2015']}
-                          /*{
-                            data: [
-                              {name: '第一产业', value: dataMap.dataNO2['2015sum']},
-                              {name: '第二产业', value: dataMap.dataCO['2015sum']},
-                              {name: '第三产业', value: dataMap.dataSO2['2015sum']}
-                            ]
-                          }*/
                       ]
                   },
                   {
@@ -1103,13 +966,6 @@ export default {
                           {data: dataMap.dataO3['2016']},
                           {data: dataMap.dataPM2['2016']},
                           {data: dataMap.dataPM10['2016']}
-                          /*{
-                            data: [
-                              {name: '第一产业', value: dataMap.dataNO2['2016sum']},
-                              {name: '第二产业', value: dataMap.dataCO['2016sum']},
-                              {name: '第三产业', value: dataMap.dataSO2['2016sum']}
-                            ]
-                          }*/
                       ]
                   },
                   {
@@ -1127,13 +983,6 @@ export default {
                           {data: dataMap.dataO3['2017']},
                           {data: dataMap.dataPM2['2017']},
                           {data: dataMap.dataPM10['2017']}
-                          /*{
-                            data: [
-                              {name: '第一产业', value: dataMap.dataNO2['2017sum']},
-                              {name: '第二产业', value: dataMap.dataCO['2017sum']},
-                              {name: '第三产业', value: dataMap.dataSO2['2017sum']}
-                            ]
-                          }*/
                       ]
                   },
                   {
@@ -1151,13 +1000,6 @@ export default {
                           {data: dataMap.dataO3['2018']},
                           {data: dataMap.dataPM2['2018']},
                           {data: dataMap.dataPM10['2018']}
-                          /*{
-                            data: [
-                              {name: '第一产业', value: dataMap.dataNO2['2018sum']},
-                              {name: '第二产业', value: dataMap.dataCO['2018sum']},
-                              {name: '第三产业', value: dataMap.dataSO2['2018sum']}
-                            ]
-                          }*/
                       ]
                   }
               ]

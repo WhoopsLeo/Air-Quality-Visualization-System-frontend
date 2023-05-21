@@ -238,7 +238,7 @@ export default {
             interval: 100,
             axisLabel: {
               formatter: '{value}',
-              color: "rgba(255, 255, 255, 1)"
+              color: "rgba(255, 255, 255, 1)"  //白色
             },
             nameTextStyle: {
               color: "rgba(255, 255, 255, 255)"
